@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>Terra.Microsoft.Keys</id>
+		<version>1.0.0</version>
+		<title>Terra.Microsoft.Keys</title>
+    <icon>TerraMystic.png</icon>
+		<authors>Dan Gerchcovich</authors>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/TerraMystics/Terra.Microsoft.Keys</projectUrl>
+		<description>A lightweight library for generating keys used for the Terra Ecosystem</description>
+		<releaseNotes>Package Update</releaseNotes>
+		<copyright>2022</copyright>
+		<tags></tags>
+	</metadata>
+
+	<files>
+		<file src="bin\Release\netstandard2.0\Terra.Microsoft.Keys.dll" target="lib\netstandard2.0\Terra.Microsoft.Keys.dll"/>
+		<file src="TerraMystic.png" target="TerraMystic.png"/>
+	</files>
+</package>
