@@ -67,9 +67,9 @@ async void GenerateMnemonic() {
 }
 ```
 
-## Terra.Microsoft.Client For Unity Developers
+## Terra.Microsoft.Keys For Unity Developers
 
-If you are using Terra.Microsoft.Client for Unity, please make sure to install the [following asset](https://github.com/TerraMystics/NuGetForUnity) in your project, and follow the installation instructions above
+If you are using Terra.Microsoft.Keys for Unity, please make sure to install the [following asset](https://github.com/TerraMystics/NuGetForUnity) in your project, and follow the installation instructions above
 
 ## License
 
