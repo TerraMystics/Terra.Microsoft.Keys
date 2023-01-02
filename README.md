@@ -23,12 +23,8 @@ A lightweight library to generate keys commonly used for the terra ecosystem. Ra
 </p>
 
 <p align="center">
-  <a href="https://docs.terra.money/"><strong>Explore the Docs »</strong></a>
+  <a href="https://docs.terra.money/develop/feather-js/keys"><strong>Explore the Docs »</strong></a>
   <br />
-  <br/>
-  <a href="https://www.nuget.org/packages/TerraMystics/1.0.0">Nuget Package</a>
-  ·
-  <a href="https://github.com/TerraMystics/Terra.Microsoft.Keys">GitHub</a>
 </p>
 
 ## Features
