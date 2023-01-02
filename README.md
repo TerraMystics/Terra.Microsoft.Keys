@@ -9,7 +9,7 @@ A lightweight library to generate keys commonly used for the terra ecosystem. Ra
 <br/>
 
 <p align="center">
-  <a href="https://github.com/TerraMystics/Terra.Microsoft.Keys/blob/main/LICENSE.md">
+  <a href="https://github.com/TerraMystics/Terra.Microsoft.Keys/blob/main/LICENSE">
   <img alt="GitHub" src="https://img.shields.io/github/license/terra-money/terra.js">
   </a>
 
