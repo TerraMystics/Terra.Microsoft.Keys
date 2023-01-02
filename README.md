@@ -18,7 +18,7 @@ A lightweight library to generate keys commonly used for the terra ecosystem. Ra
   </a>
   
   <a href="https://www.nuget.org/packages/Terra.Microsoft.Keys/1.0.0">
-    <img alt="GitHub" src="https://img.shields.io/nuget/dt/Terra.Microsoft.Keys?color=red">
+    <img alt="GitHub" src="https://img.shields.io/nuget/dt/terra.Microsoft.Keys?color=red">
   </a>
 </p>
 
