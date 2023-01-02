@@ -58,16 +58,17 @@ Please make sure to add the following nuget Packages into your .csproj file
 Terra.Microsoft.Keys can be used for Mobile & Web Developers, or SDK Developers looking to extend the Terra Platform. Supports all Microsoft Technologies from Xamarin, MAUI, ASP & Unity.
 
 ### Generating a Mnemonic Key
-
-Below we're going to pull balance information on a sample wallet.
 ```cs
-async MnemonicKey GenerateMnemonic() {
+MnemonicKey GenerateMnemonic() {
   // Create a key out of a mnemonic string (recovery words)
-    return new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius");
+  string recoveryWords = "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius";
+  
+  // If creating a random mnemonic, don't pass the recovery words
+  return new MnemonicKey(recoveryWords);
 }
 
 //ONLY FOR TESTING & DEVELOPMENT PURPOSES: DO NOT EXPOSE PRIVATE KEY, IT COULD RISK EXPOSING THE WALLET FUNDS IF LOST
-async MnemonicKey GenerateMnemonicWithPrivateKey() {
+MnemonicKey GenerateMnemonicWithPrivateKey() {
   // Create a key out of a mnemonic string (recovery words)
     var mnmonic =  new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius", exposePrivateKey: true);
     
