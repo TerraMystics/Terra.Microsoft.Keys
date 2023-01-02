@@ -69,12 +69,14 @@ MnemonicKey GenerateMnemonic() {
 
 //ONLY FOR TESTING & DEVELOPMENT PURPOSES: DO NOT EXPOSE PRIVATE KEY, IT COULD RISK EXPOSING THE WALLET FUNDS IF LOST
 MnemonicKey GenerateMnemonicWithPrivateKey() {
+  string recoveryWords = "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius";
+  
   // Create a key out of a mnemonic string (recovery words)
-    var mnmonic =  new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius", exposePrivateKey: true);
+  var mnmonic =  new MnemonicKey(recoveryWords, exposePrivateKey: true);
     
-    Console.WriteLine($"PrivateKey: {mnmonic.privateKeyExposed}");
+  Console.WriteLine($"PrivateKey: {mnmonic.privateKeyExposed}");
     
-    return mnmonic;
+  return mnmonic;
 }
 ```
 
