@@ -61,9 +61,9 @@ Terra.Microsoft.Keys can be used for Mobile & Web Developers, or SDK Developers 
 
 Below we're going to pull balance information on a sample wallet.
 ```cs
-async void GenerateMnemonic() {
-  // Create a key out of a mnemonic
-    var mnemonic = new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius");
+async MnemonicKey GenerateMnemonic() {
+  // Create a key out of a mnemonic string (recovery words)
+    return new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius");
 }
 ```
 
