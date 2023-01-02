@@ -35,7 +35,7 @@ A lightweight library to generate keys commonly used for the terra ecosystem. Ra
 
 ## Installation & Configuration
 
-Grab the latest version off [Nuget](https://www.nuget.org/packages/TerraMystics/1.0.0)
+Grab the latest version off [Nuget](https://www.nuget.org/packages/Terra.Microsoft.Keys/#readme-body-tab)
 
 ```sh
 dotnet add package Terra.Microsoft.Keys
