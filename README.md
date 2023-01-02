@@ -65,6 +65,16 @@ async MnemonicKey GenerateMnemonic() {
   // Create a key out of a mnemonic string (recovery words)
     return new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius");
 }
+
+//ONLY FOR TESTING: DO NOT EXPOSE PRIVATE KEY, IT COULD RISK EXPOSING THE WALLET FUNDS IF LOST
+async MnemonicKey GenerateMnemonicWithPrivateKey() {
+  // Create a key out of a mnemonic string (recovery words)
+    var mnmonic =  new MnemonicKey("notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius", exposePrivateKey: true);
+    
+    Console.WriteLine($"PrivateKey: {mnmonic.privateKeyExposed}");
+    
+    return mnmonic;
+}
 ```
 
 ## Terra.Microsoft.Keys For Unity Developers
@@ -73,6 +83,6 @@ If you are using Terra.Microsoft.Keys for Unity, please make sure to install the
 
 ## License
 
-This software is licensed under the MIT license. See [LICENSE](./LICENSE) for full disclosure.
+This software is licensed under the MIT license. See [LICENSE](https://github.com/TerraMystics/Terra.Microsoft.Keys/blob/main/LICENSE) for full disclosure.
 
 © 2022 TerraMystics.
