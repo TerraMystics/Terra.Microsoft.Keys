@@ -60,6 +60,7 @@ Terra.Microsoft.Keys can be used for Mobile & Web Developers, or SDK Developers 
 ### Generating a Mnemonic Key
 ```cs
 MnemonicKey GenerateMnemonic() {
+
   // Create a key out of a mnemonic string (recovery words)
   string recoveryWords = "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius";
   
@@ -69,6 +70,7 @@ MnemonicKey GenerateMnemonic() {
 
 //ONLY FOR TESTING & DEVELOPMENT PURPOSES: DO NOT EXPOSE PRIVATE KEY, IT COULD RISK EXPOSING THE WALLET FUNDS IF LOST
 MnemonicKey GenerateMnemonicWithPrivateKey() {
+
   string recoveryWords = "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius";
   
   // Create a key out of a mnemonic string (recovery words)
