@@ -1,23 +1,45 @@
-﻿using Terra.Microsoft.ProtoBufs.third_party.proto.cosmos.tx.signing.v1beta1;
-using Terra.Microsoft.ProtoBufs.proto.keys;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Terra.Microsoft.Extensions.StringExt;
 
 namespace Terra.Microsoft.Keys
 {
     public abstract class Key
     {
-        public KeysDto publicKey;
+        public SimplePublicKey publicKey;
 
         public Key() { }
-        public Key(KeysDto publicKey)
+        public Key(SimplePublicKey publicKey)
         {
             this.publicKey = publicKey;
         }
 
         public abstract Task<byte[]> Sign(byte[] payload);
+
+        public string AccAddress
+        {
+            get
+            {
+                if (this.publicKey == null)
+                {
+                    throw new Exception("Could not compute accAddress: missing rawAddress");
+                }
+
+                return this.publicKey.Address();
+
+            }
+        }
+
+        public string ValAddress
+        {
+            get
+            {
+                if (this.publicKey == null)
+                {
+                    throw new Exception("Could not compute accAddress: missing rawAddress");
+                }
+
+                return this.publicKey.PubKeyAddress();
+            }
+        }
     }
 }

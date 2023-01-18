@@ -8,7 +8,8 @@
     <PackageReference Include="NBitcoin" Version="7.0.23" />
     <PackageReference Include="RandomStringCreator" Version="2.0.0" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="Terra.Microsoft.Extensions" Version="1.0.1" />
+    <PackageReference Include="Terra.Microsoft.Extensions" Version="1.0.2" />
     <PackageReference Include="Terra.Microsoft.ProtoBufs" Version="1.0.1" />
+    <PackageReference Include="Terra.Microsoft.Rest" Version="1.0.0" />
   </ItemGroup>
 </Project>

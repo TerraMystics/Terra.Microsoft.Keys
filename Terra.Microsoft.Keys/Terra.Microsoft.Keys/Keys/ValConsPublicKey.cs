@@ -5,7 +5,10 @@ using Terra.Microsoft.Extensions.StringExt;
 using Terra.Microsoft.ProtoBufs.third_party.proto.cosmos.crypto.ed25519;
 using Terra.Microsoft.Keys.Extensions;
 using Terra.Microsoft.Keys.Constants;
-using Terra.Microsoft.Keys.Extensions;
+using Terra.Microsoft.Extensions.Extension.Bech32;
+using Terra.Microsoft.Extensions.Security;
+using Terra.Microsoft.ProtoBufs.proto.keys;
+using Terra.Microsoft.Rest.Staking;
 
 namespace Terra.Microsoft.Keys
 {
@@ -55,10 +58,15 @@ namespace Terra.Microsoft.Keys
         {
             return new ValConsPublicKey(data.Key);
         }
-      
+
         public static ValConsPublicKey FromProto(PubKey data)
         {
             return new ValConsPublicKey(TerraStringExtensions.GetBase64FromBytes(data.Key));
+        }
+
+        public static ValConsPublicKey FromJSON(ValConsPublicKeyCommonArgsJSON data)
+        {
+            return new ValConsPublicKey(data.key);
         }
 
         public static ValConsPublicKey UnPackAny(Any msgAny)
@@ -81,20 +89,31 @@ namespace Terra.Microsoft.Keys
             return PublicKeyExtensions.pubkeyAminoPrefixEd25519.MergeDataArrays(base64Data);
         }
 
-        //public byte[] RawAddress()
-        //{
-        //    return HashExtensions.sha256(TerraStringExtensions.GetBase64FromString(this.key)).Take(20).ToArray();
-        //}
 
-        //public string Address()
-        //{
-        //    return Nano.Bech32.Bech32Encoder.Encode(TerraPubKeys.TERRA_PUB_ICON_NAME, this.RawAddress())!;
-        //}
+        public byte[] RawAddress()
+        {
+            return HashExtensions.Ripemd(HashExtensions.Sha256(TerraStringExtensions.GetBase64BytesFromString(this.key)));
+        }
 
-        //public string PubKeyAddress()
-        //{
-        //    return Nano.Bech32.Bech32Encoder.Encode(TerraPubKeys.TERRA_PUB_ICON_PUB_NAME, this.EncodeAminoPubkey())!;
-        //}
+        public string Address()
+        {
+            return Bech32Extensions.GetBech32Address(TerraPubKeys.TERRA_PUBLIC_KEYNAME, this.RawAddress());
+        }
+
+        public string PubKeyAddress()
+        {
+            return Bech32Extensions.GetBech32Address(TerraPubKeys.TERRA_PUB, this.RawAddress());
+        }
+
+        public KeysDto ToKeyProto()
+        {
+            return new KeysDto()
+            {
+                TypeUrl = CosmosKeys.ED25519_VAL_CONS_PUBKEY,
+                RawPublicKey = TerraStringExtensions.GetBase64BytesFromString(key),
+                Key = key,
+            };
+        }
     }
 
     public class ValConsPublicKeyAminoArgs : ValConsPublicKeyCommonArgs

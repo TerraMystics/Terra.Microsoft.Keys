@@ -5,13 +5,16 @@ using Terra.Microsoft.Extensions.StringExt;
 using Terra.Microsoft.ProtoBufs.third_party.proto.cosmos.crypto.secp256k1;
 using Terra.Microsoft.Keys.Constants;
 using Terra.Microsoft.Keys.Extensions;
+using Terra.Microsoft.Extensions.Security;
+using Terra.Microsoft.ProtoBufs.proto.keys;
+using Terra.Microsoft.Extensions.Extension.Bech32;
 
 namespace Terra.Microsoft.Keys
 {
     public class SimplePublicKey
     {
-        public readonly string key;
-        public SimplePublicKey(string key)
+        public readonly byte[] key;
+        public SimplePublicKey(byte[] key)
         {
             this.key = key;
         }
@@ -43,13 +46,24 @@ namespace Terra.Microsoft.Keys
         {
             return new PubKey()
             {
-                Key = TerraStringExtensions.GetBase64BytesFromString(this.key)
+                Key = this.key
             };
         }
 
         public byte[] ToProto()
         {
             return ProtoExtensions.SerialiseFromData(this.ToProtoWithType());
+        }
+
+
+        public KeysDto ToProtoDto(bool amino = false)
+        {
+            return new KeysDto()
+            {
+                Key = TerraStringExtensions.GetBase64FromBytes(key),
+                RawPublicKey = key,
+                TypeUrl = amino ? TendermintKeys.TENDERMINT_SIMPLE_PUBKEY : CosmosKeys.SECP256K1_SIMP_PUBKEY
+            };
         }
 
         public SimplePublicKeyAminoArgs ToAmino()
@@ -72,15 +86,40 @@ namespace Terra.Microsoft.Keys
 
         public static SimplePublicKey FromProto(PubKey data)
         {
-            return new SimplePublicKey(TerraStringExtensions.GetBase64FromBytes(data.Key));
+            return new SimplePublicKey(data.Key);
         }
 
         public byte[] EncodeAminoPubkey()
         {
-            var base64Data = PublicKeyExtensions.GetBase64DataFromKey(this.key);
-            return PublicKeyExtensions.pubkeyAminoPrefixSecp256k1.MergeDataArrays(base64Data);
+            return PublicKeyExtensions.pubkeyAminoPrefixSecp256k1.MergeDataArrays(this.key);
+        }
+
+        public byte[] RawAddress()
+        {
+            return HashExtensions.Ripemd(HashExtensions.Sha256(this.key));
+        }
+
+        public string Address()
+        {
+            return Bech32Extensions.GetBech32Address(TerraPubKeys.TERRA_PUBLIC_KEYNAME, this.RawAddress());
+        }
+
+        public string PubKeyAddress()
+        {
+            return Bech32Extensions.GetBech32Address(TerraPubKeys.TERRA_PUB, this.RawAddress());
+        }
+
+        public KeysDto ToKeyProto()
+        {
+            return new KeysDto()
+            {
+                TypeUrl = CosmosKeys.SECP256K1_SIMP_PUBKEY,
+                RawPublicKey = key,
+                Key = TerraStringExtensions.GetBase64FromBytes(key),
+            };
         }
     }
+
     public class SimplePublicKeyAminoArgs : SimplePublicKeyCommonArgs
     {
         public SimplePublicKeyAminoArgs()
@@ -101,6 +140,6 @@ namespace Terra.Microsoft.Keys
     {
         [JsonProperty("@type")]
         public string Type { get; set; }
-        public string Key { get; set; }
+        public byte[] Key { get; set; }
     }
 }
