@@ -13,7 +13,7 @@ namespace Terra.Microsoft.Keys
             this.publicKey = publicKey;
         }
 
-        public abstract Task<byte[]> Sign(byte[] payload);
+        public abstract Task<string> Sign(string payload);
 
         public string AccAddress
         {

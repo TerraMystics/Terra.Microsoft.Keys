@@ -1,16 +1,22 @@
 ﻿using NBitcoin;
-using Cryptography.ECDSA;
 using System;
 using System.Threading.Tasks;
 using Terra.Microsoft.Extensions.Security;
 using Terra.Microsoft.Keys.Extensions;
 using Terra.Microsoft.Extensions.StringExt;
 using Terra.Microsoft.Keys.Constants;
+using NBitcoin.Protocol;
+using EllipticCurve;
+using System.Diagnostics;
+using PemUtils;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace Terra.Microsoft.Keys
 {
     public class MnemonicKey : Key
     {
+        private ExtKey logKey;
         private byte[] privateKey;
         public byte[] privateKeyExposed;
 
@@ -25,26 +31,22 @@ namespace Terra.Microsoft.Keys
 
         private async void PrepareMnemonic(string mnemonicKey, bool exposePrivateKey)
         {
+            Mnemonic mnemo;
             if (!string.IsNullOrWhiteSpace(mnemonicKey))
             {
-                Mnemonic mnemo = new Mnemonic(mnemonicKey);
-                ExtKey hdroot = mnemo.DeriveExtKey();
-                var firstprivkey = hdroot.Derive(new KeyPath(DerivationPaths.DEFAULT_LUNA_PATH));
-
-                this.privateKey = firstprivkey.PrivateKey.ToBytes();
-                this.publicKey = GetSimpleKey();
+                mnemo = new Mnemonic(mnemonicKey);
             }
             else
             {
                 var mns = await MnemonicExtension.GenerateRandomMnemonic();
-
-                Mnemonic mnemo = new Mnemonic(mns.Value);
-                ExtKey hdroot = mnemo.DeriveExtKey();
-                var firstprivkey = hdroot.Derive(new KeyPath(DerivationPaths.DEFAULT_LUNA_PATH));
-
-                this.privateKey = firstprivkey.PrivateKey.ToBytes();
-                this.publicKey = GetSimpleKey();
+                mnemo = new Mnemonic(mns.Value);
             }
+
+            ExtKey hdroot = logKey = mnemo.DeriveExtKey();
+            var firstprivkey = hdroot.Derive(new KeyPath(DerivationPaths.DEFAULT_LUNA_PATH));
+
+            this.privateKey = firstprivkey.PrivateKey.ToBytes();
+            this.publicKey = new SimplePublicKey(firstprivkey.GetPublicKey().ToBytes());
 
             if (exposePrivateKey)
             {
@@ -52,29 +54,31 @@ namespace Terra.Microsoft.Keys
             }
         }
 
-        public SimplePublicKey GetSimpleKey()
+        public string EcdsaSign(string payload)
         {
-            // PUBLICKEY:  "A1xYF6iW3VSia08ItqjeBfpai+xj8tmuy/Ij3YquR6mX"
-            // Private Key: 33, 1, 230, 161, 76, 99, 248, 11, 121, 38, 237, 169, 96, 93, 111, 186, 88, 162, 68, 9, 227, 252, 195, 203, 223, 154, 208, 65, 83, 132, 142, 232
-            //var dataTest = new byte[32] { 33, 1, 230, 161, 76, 99, 248, 11, 121, 38, 237, 169, 96, 93, 111, 186, 88, 162, 68, 9, 227, 252, 195, 203, 223, 154, 208, 65, 83, 132, 142, 232 };
-            //bool ist = dataTest == this.privateKey;
-            //string key = TerraStringExtensions.GetBase64FromBytes(Secp256K1Manager.GetPublicKey(this.privateKey, true));
+            var key = PrivateKey.fromString(TerraStringExtensions.GetBase64BytesFromBytes(this.privateKey));
+            var signature = Ecdsa.sign(payload, key);
+            Ecdsa.verify(payload, signature, key.publicKey());
 
-            var pubKey = Secp256K1Manager.GetPublicKey(this.privateKey, true);
-            return new SimplePublicKey(pubKey);
+            Debug.WriteLine("PUB KEY: " + payload);
+            return signature.toBase64();
         }
 
-        public byte[] EcdsaSign(byte[] payload)
-        {
-            var data = TerraStringExtensions.GetBytesFromString(HashExtensions.HashToHex(payload));
-            return Secp256K1Manager.SignCompressedCompact(data, this.privateKey);
-        }
 
-        public override async Task<byte[]> Sign(byte[] payload)
-        {
-            if (!BitConverter.IsLittleEndian)
-                Array.Reverse(payload);
+        //    public ecdsaSign(payload: Buffer) : { signature: Uint8Array; recid: number } {
+        //const hash = Buffer.from(
+        //  SHA256.hash(new Word32Array(payload)).toString(),
+        //  'hex'
+        //);
+        //return secp256k1.ecdsaSign(
+        //  Uint8Array.from(hash),
+        //  Uint8Array.from(this.privateKey)
+        //);
+        //    }
 
+
+        public override async Task<string> Sign(string payload)
+        {
             return this.EcdsaSign(payload);
         }
     }

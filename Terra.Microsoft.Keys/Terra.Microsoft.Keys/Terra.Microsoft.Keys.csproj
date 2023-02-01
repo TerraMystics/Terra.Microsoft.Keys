@@ -4,12 +4,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cryptography.ECDSA.Secp256k1" Version="1.1.3" />
+    <PackageReference Include="dotnetstandard-bip32-ft" Version="0.1.1" />
+    <PackageReference Include="dotnetstandard-bip39" Version="1.0.2" />
     <PackageReference Include="NBitcoin" Version="7.0.23" />
+    <PackageReference Include="PemUtils" Version="3.0.0.82" />
     <PackageReference Include="RandomStringCreator" Version="2.0.0" />
+    <PackageReference Include="starkbank-ecdsa" Version="1.3.3" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
     <PackageReference Include="Terra.Microsoft.Extensions" Version="1.0.2" />
-    <PackageReference Include="Terra.Microsoft.ProtoBufs" Version="1.0.1" />
-    <PackageReference Include="Terra.Microsoft.Rest" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\terra-sharp\TerraProto.CSharp.Legacy\TerraProto.CSharp.Legacy.csproj" />
+    <ProjectReference Include="..\..\..\terra-sharp\TerraSharp.Rest.Legacy\TerraSharp.Rest.Legacy.csproj" />
   </ItemGroup>
 </Project>

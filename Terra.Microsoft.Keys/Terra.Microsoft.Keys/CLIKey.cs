@@ -17,7 +17,7 @@ namespace Terra.Microsoft.Keys
             }
         }
 
-        public override Task<byte[]> Sign(byte[] payload)
+        public override Task<string> Sign(string payload)
         {
             throw new InvalidOperationException("CLIKey does not use sign() -- use createSignature() directly.");
         }

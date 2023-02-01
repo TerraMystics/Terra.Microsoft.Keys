@@ -8,6 +8,7 @@ using Terra.Microsoft.Keys.Extensions;
 using Terra.Microsoft.Extensions.Security;
 using Terra.Microsoft.ProtoBufs.proto.keys;
 using Terra.Microsoft.Extensions.Extension.Bech32;
+using EllipticCurve;
 
 namespace Terra.Microsoft.Keys
 {
@@ -58,6 +59,8 @@ namespace Terra.Microsoft.Keys
 
         public KeysDto ToProtoDto(bool amino = false)
         {
+            //var pubKey = PrivateKey.fromString(TerraStringExtensions.GetBase64BytesFromBytes(this.privateKey)).publicKey().toDer();
+
             return new KeysDto()
             {
                 Key = TerraStringExtensions.GetBase64FromBytes(key),
@@ -107,16 +110,6 @@ namespace Terra.Microsoft.Keys
         public string PubKeyAddress()
         {
             return Bech32Extensions.GetBech32Address(TerraPubKeys.TERRA_PUB, this.RawAddress());
-        }
-
-        public KeysDto ToKeyProto()
-        {
-            return new KeysDto()
-            {
-                TypeUrl = CosmosKeys.SECP256K1_SIMP_PUBKEY,
-                RawPublicKey = key,
-                Key = TerraStringExtensions.GetBase64FromBytes(key),
-            };
         }
     }
 
